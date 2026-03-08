@@ -1,0 +1,420 @@
+body {
+    margin: 0;
+    overflow: hidden; /* Ẩn thanh cuộn */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #ffcccc, #ffe0e6); /* Nền màu hồng nhạt */
+    font-family: Arial, sans-serif;
+    position: relative;
+    box-sizing: border-box; /* Đảm bảo padding và border được tính vào width/height */
+}
+
+.wrapper {
+    height: 200px;
+    width: 300px;
+    background-color: #3760c9;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    z-index: 0;
+}
+
+.lid {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    border-right: 150px solid transparent;
+    border-bottom: 100px solid transparent;
+    border-left: 150px solid transparent;
+    transform-origin: top;
+    transition: transform 0.25s linear;
+}
+
+/* Lid when closed */
+.lid.one {
+    border-top: 100px solid #658ced;
+    transform: rotateX(0deg);
+    z-index: 3;
+    transition-delay: 0.75s;
+}
+
+/* Lid when opened */
+.lid.two {
+    border-top: 100px solid #3760c9;
+    transform: rotateX(90deg);
+    z-index: 1;
+    transition-delay: 0.5s;
+}
+
+.envelope {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    border-top: 100px solid transparent;
+    border-right: 150px solid #c4dff0;
+    border-bottom: 100px solid #c4dff0;
+    border-left: 150px solid #a4d4f2;
+    z-index: 3;
+}
+
+.wrapper .letter {
+    position: absolute;
+    top: 0;
+    width: 80%;
+    height: 80%;
+    background-color: white;
+    border-radius: 15px;
+    z-index: 2;
+    transition: 0.5s;
+}
+
+.wrapper .letter p {
+    text-align: center;
+    font-size: 30px;
+    margin-top: 30px;
+    color: #3b4049;
+}
+
+.wrapper:hover .lid.one {
+    transform: rotateX(90deg);
+    transition-delay: 0s;
+}
+
+.wrapper:hover .lid.two {
+    transform: rotateX(180deg);
+    transition-delay: 0.25s;
+}
+
+.wrapper:hover .letter {
+    transform: translateY(-50px);
+    transition-delay: 0.5s;
+}
+
+.flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f0f0f0;
+    transform-origin: top;
+    transition: transform 0.5s ease-in-out;
+    z-index: 2;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+.envelope.open .flap {
+    transform: rotateX(180deg); /* Lật ngược nắp phong bì */
+}
+
+.body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f0f0f0;
+    clip-path: polygon(0 100%, 100% 100%, 50% 0);
+    z-index: 1;
+}
+
+.letter-invite {
+    position: absolute;
+    font-size: 1.2em;
+    color: #555;
+    text-align: center;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 3;
+    padding: 10px; /* Thêm padding cho chữ trên mobile */
+}
+
+.envelope.open .letter-invite {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Lá thư bên trong */
+.letter-container {
+    position: absolute;
+    width: 90%; /* Tăng độ rộng trên desktop */
+    max-width: 800px;
+    height: 0;
+    opacity: 0;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    transition: all 1s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+    box-sizing: border-box;
+}
+
+.letter-container.open {
+    height: 90vh; /* Sử dụng vh để đảm bảo full chiều cao trên mobile */
+    opacity: 1;
+    padding: 20px;
+    max-height: 90%; /* Giới hạn chiều cao tối đa */
+}
+
+.letter {
+    width: 100%;
+    height: 100%;
+    padding: 0; /* Loại bỏ padding ở đây, sẽ dùng padding của letter-container */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    overflow: auto;
+}
+
+.letter-content {
+    display: flex;
+    gap: 30px;
+    height: 100%;
+    flex-direction: row; /* Mặc định là hàng ngang */
+}
+
+.left-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 150px; /* Đảm bảo hình ảnh không quá nhỏ */
+}
+
+.left-section img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    object-fit: cover;
+}
+
+.right-section {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: #333;
+    padding-left: 10px; /* Thêm padding nhẹ cho chữ */
+}
+
+.greeting {
+    font-family: "Charmonman", cursive;
+    font-size: 1.8em;
+    color: #e91e63;
+    margin-bottom: 15px;
+}
+
+.message {
+    margin-bottom: 20px;
+    text-align: justify;
+    overflow-y: auto; /* Cho phép cuộn nếu nội dung dài trên mobile */
+    padding-right: 5px; /* Tránh text sát mép cuộn */
+    color: #9b436d;
+}
+
+.closing {
+    margin-top: auto;
+    font-style: italic;
+    color: #777;
+}
+
+.signature {
+    font-family: "Dancing Script", cursive;
+    font-size: 2.5em;
+    color: #d81b60;
+    margin-top: 10px;
+    text-align: right;
+    padding-right: 20px;
+    word-break: break-word; /* Ngắt từ nếu chữ ký quá dài */
+}
+
+/* Hiệu ứng trái tim */
+.heart {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: #ff69b4;
+    transform: rotate(-45deg);
+    opacity: 0;
+    animation: none;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.heart::before,
+.heart::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: inherit; /* Kế thừa màu từ .heart */
+    border-radius: 50%;
+}
+
+.heart::before {
+    top: -50%;
+    left: 0;
+}
+
+.heart::after {
+    left: 50%;
+    top: 0;
+}
+
+/* Animations trái tim */
+@keyframes flyHeart {
+    0% {
+        opacity: 0;
+        transform: translateY(0) rotate(-45deg) scale(0.5);
+    }
+    20% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-100vh) rotate(10deg) scale(1.5); /* Bay cao hơn */
+    }
+}
+
+/* Hiệu ứng bong bóng (Bubble) */
+.bubble {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+    animation: none;
+    z-index: 0;
+}
+
+@keyframes flyBubble {
+    0% {
+        opacity: 0;
+        transform: translateY(0) scale(0.5);
+    }
+    20% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-100vh) scale(1.2); /* Bay cao hơn */
+    }
+}
+
+/* Media Queries cho Responsive */
+@media (max-width: 768px) {
+    .envelope-wrapper {
+        width: 250px;
+        height: 150px;
+    }
+
+    .letter-invite {
+        font-size: 1em;
+    }
+
+    .letter-container.open {
+        width: 95%; /* Chiếm nhiều không gian hơn trên mobile */
+        padding: 15px;
+    }
+
+    .letter-content {
+        flex-direction: column; /* Xếp chồng ảnh và chữ trên mobile */
+        gap: 15px;
+    }
+
+    .left-section {
+        flex: none; /* Bỏ flex để ảnh chiếm không gian tự nhiên */
+        width: 100%;
+        height: 200px; /* Chiều cao cố định cho ảnh trên mobile */
+    }
+
+    .left-section img {
+        height: 100%; /* Đảm bảo ảnh đầy đủ chiều cao */
+        width: auto; /* Chiều rộng tự động */
+    }
+
+    .right-section {
+        font-size: 0.9em;
+        padding-left: 0;
+    }
+
+    .greeting {
+        font-size: 1.5em;
+        text-align: center; /* Căn giữa lời chào trên mobile */
+    }
+
+    .message {
+        text-align: left; /* Căn trái nội dung thư trên mobile */
+    }
+
+    .signature {
+        font-size: 2em;
+        padding-right: 0;
+        text-align: center; /* Căn giữa chữ ký trên mobile */
+    }
+
+    /* Điều chỉnh animation cho mobile */
+    @keyframes flyHeart {
+        0% {
+            opacity: 0;
+            transform: translateY(0) rotate(-45deg) scale(0.4);
+        }
+        20% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+            transform: translateY(-90vh) rotate(15deg) scale(1.2);
+        }
+    }
+
+    @keyframes flyBubble {
+        0% {
+            opacity: 0;
+            transform: translateY(0) scale(0.4);
+        }
+        20% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+            transform: translateY(-90vh) scale(1);
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .envelope-wrapper {
+        width: 200px;
+        height: 120px;
+    }
+    .letter-invite {
+        font-size: 0.9em;
+    }
+    .letter-container.open {
+        padding: 10px;
+    }
+    .left-section {
+        height: 150px;
+    }
+    .greeting {
+        font-size: 1.3em;
+    }
+    .signature {
+        font-size: 1.8em;
+    }
+}
