@@ -159,7 +159,7 @@ body {
 }
 
 .letter-container.open {
-    height: 90vh; /* Sử dụng vh để đảm bảo full chiều cao trên mobile */
+    height: 70vh; /* Sử dụng vh để đảm bảo full chiều cao trên mobile */
     opacity: 1;
     padding: 20px;
     max-height: 90%; /* Giới hạn chiều cao tối đa */
@@ -227,14 +227,13 @@ body {
 }
 
 .closing {
-    margin-top: auto;
     font-style: italic;
-    color: #777;
+    color: #9b436d;
 }
 
 .signature {
     font-family: "Dancing Script", cursive;
-    font-size: 2.5em;
+    font-size: 1.8rem;
     color: #d81b60;
     margin-top: 10px;
     text-align: right;
